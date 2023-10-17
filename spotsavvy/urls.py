@@ -18,10 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 from rest_framework import routers
-from savvydata.views import UserprofileViewSet, ReviewViewSet
+from savvydata.views import UserViewSet, ReviewViewSet
 
 router=routers.DefaultRouter()
-router.register(r'userprofiles', UserprofileViewSet)
+router.register(r'users', UserViewSet)
 router.register(r'reviews', ReviewViewSet)
 
 urlpatterns = [
