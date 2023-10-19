@@ -1,12 +1,33 @@
 from rest_framework import serializers
-from .models import User, Review
+from django.contrib.auth import get_user_model
+from .models import Review
 
-class UserSerializer(serializers.ModelSerializer):
+User = get_user_model()
+
+class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('id', 'username', 'password', 'location')
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User(
+            username=validated_data['username'],
+            location=validated_data['location']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = '__all__'
+        fields = ['id', 'restaurant_id', 'user', 'rating', 'text', 'date']
+        read_only_fields = ('date', 'user')
+
+class UserSerializer(serializers.ModelSerializer):
+    reviews = ReviewSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'location', 'reviews']
