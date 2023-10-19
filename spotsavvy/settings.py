@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import dj_database_url
 import django_heroku
+from corsheaders.defaults import default_headers
 
 
 import environ  
@@ -23,6 +24,7 @@ environ.Env.read_env()
 # SECURITY WARNING: keep the secret key used in production secret!
 
 SECRET_KEY=env('SECRET_KEY')
+DATABASE_URL=env('DATABASE_URL')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,16 +49,29 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'savvydata',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # or your frontend's origin
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'X-CSRFToken',
 ]
 
 ROOT_URLCONF = 'spotsavvy.urls'
@@ -83,21 +98,21 @@ WSGI_APPLICATION = 'spotsavvy.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'testsavvy',
-        'USER': 'test',
-        'PASSWORD': 'test',
-        'HOST': 'localhost',  # Set to your database server's address if it's not on your local machine
-        'PORT': '5432',       # The default postgres port is 5432
-    }
-}
-
 # DATABASES = {
-#     'default': 
-#         dj_database_url.config('DATABASE_URL')
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'testsavvy',
+#         'USER': 'test',
+#         'PASSWORD': 'test',
+#         'HOST': 'localhost',  # Set to your database server's address if it's not on your local machine
+#         'PORT': '5432',       # The default postgres port is 5432
+#     }
 # }
+
+DATABASES = {
+    'default': 
+        dj_database_url.config('DATABASE_URL')
+}
 
 # DATABASES = {
 #     'default': {
