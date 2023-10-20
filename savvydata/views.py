@@ -8,6 +8,7 @@ from django.contrib.auth import login, logout, authenticate
 from .serializers import UserSerializer, UserCreateSerializer, ReviewSerializer
 from .models import Review
 from rest_framework.exceptions import PermissionDenied
+from django.middleware.csrf import get_token
 
 User = get_user_model()
 
@@ -20,13 +21,15 @@ def signup_view(request):
     serializer = UserCreateSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
-
-        # Authenticate the user and log them in.
         login(request, user)
+
+        # Get CSRF token
+        csrf_token = get_token(request)
 
         response_data = {
             "message": "User created successfully!",
             "user": UserSerializer(user).data,  # Include the serialized user data
+            "csrf_token": csrf_token,  # CSRF token for testing purposes
         }
 
         return Response(response_data, status=status.HTTP_201_CREATED)
@@ -40,14 +43,26 @@ def login_view(request):
     user = authenticate(username=username, password=password)
     if user:
         login(request, user)
-        return Response({"message": "Logged in successfully!"})
+        
+        # Get CSRF token
+        csrf_token = get_token(request)
+
+        return Response({
+            "message": f"Logged in as user {user.username} with token: {csrf_token}",
+            "user": UserSerializer(user).data,  # Include the serialized user data
+            "csrf_token": csrf_token,  # CSRF token for testing purposes
+        })
     return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def logout_view(request):
+    user_data = UserSerializer(request.user).data  # Capture user data before logout
     logout(request)
-    return Response({"message": "Logged out successfully!"})
+    return Response({
+        "message": f"Logged out from user {user_data['username']}",
+        "user": user_data,  # Include the serialized user data
+    })
 
 @api_view(['GET'])
 def review_list(request, restaurant_id):
