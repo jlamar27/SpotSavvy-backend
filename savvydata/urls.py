@@ -7,10 +7,12 @@ from .views import (
     create_review,
     edit_review,
     delete_review,
+    get_csrf,
     # Add other views here as you import them
 )
 
 urlpatterns = [
+    path('get-csrf-token/', get_csrf, name='get_csrf'),
     path('signup/', signup_view, name='signup'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),

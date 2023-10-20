@@ -9,12 +9,21 @@ from .serializers import UserSerializer, UserCreateSerializer, ReviewSerializer
 from .models import Review
 from rest_framework.exceptions import PermissionDenied
 from django.middleware.csrf import get_token
+from django.http import JsonResponse
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 User = get_user_model()
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+@ensure_csrf_cookie
+def get_csrf(request):
+    """
+    A view that ensures a CSRF cookie is set and returns a simple JSON response.
+    """
+    return JsonResponse({"detail": "CSRF cookie set"})
 
 @api_view(['POST'])
 def signup_view(request):
@@ -30,6 +39,7 @@ def signup_view(request):
             "message": "User created successfully!",
             "user": UserSerializer(user).data,  # Include the serialized user data
             "csrf_token": csrf_token,  # CSRF token for testing purposes
+            "sessionid": request.session.session_key  # Session ID for testing purposes
         }
 
         return Response(response_data, status=status.HTTP_201_CREATED)
@@ -51,6 +61,7 @@ def login_view(request):
             "message": f"Logged in as user {user.username} with token: {csrf_token}",
             "user": UserSerializer(user).data,  # Include the serialized user data
             "csrf_token": csrf_token,  # CSRF token for testing purposes
+            "sessionid": request.session.session_key  # Session ID for testing purposes
         })
     return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
 

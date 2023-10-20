@@ -64,14 +64,17 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # or your frontend's origin
+    "http://localhost:3000",
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'X-CSRFToken',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000"
 ]
 
 ROOT_URLCONF = 'spotsavvy.urls'
@@ -164,7 +167,14 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'savvydata.User'
 
-SESSION_COOKIE_HTTPONLY = False
+SESSION_COOKIE_HTTPONLY = True 
+CSRF_COOKIE_HTTPONLY = False
+
+SESSION_COOKIE_SECURE = True # To enforce that session cookies are only sent over HTTPS.
+CSRF_COOKIE_SECURE = True # To enforce that CSRF cookies are only sent over HTTPS.
+
+SESSION_COOKIE_SAMESITE = 'None' # None, 'Lax', or 'Strict'
+CSRF_COOKIE_SAMESITE = 'None' # None, 'Lax', or 'Strict'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
