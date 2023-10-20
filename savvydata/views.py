@@ -20,7 +20,17 @@ def signup_view(request):
     serializer = UserCreateSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
-        return Response({"message": "User created successfully!"}, status=status.HTTP_201_CREATED)
+
+        # Authenticate the user and log them in.
+        login(request, user)
+
+        response_data = {
+            "message": "User created successfully!",
+            "user": UserSerializer(user).data,  # Include the serialized user data
+        }
+
+        return Response(response_data, status=status.HTTP_201_CREATED)
+
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
