@@ -48,7 +48,9 @@ this app let users create their own account. Once an account is created the user
 
 ```python
 class User(AbstractUser):
-    location = models.CharField(max_length=100)
+    location = models.CharField(max_length=100
+
+```
 
 ### Review Schema
 - **ID**: UUID (Unique identifier for the review)
@@ -66,7 +68,7 @@ class Review(models.Model):
     rating = models.IntegerField()
     text = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
-
+```
 ## MVP Goals
 ### 1. User Registration
 - Users can create a new account by providing their username, password, and location.
