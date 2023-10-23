@@ -20,10 +20,12 @@ class UserCreateSerializer(serializers.ModelSerializer):
         return user
 
 class ReviewSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
+
     class Meta:
         model = Review
-        fields = ['id', 'restaurant_id', 'user', 'rating', 'text', 'date']
-        read_only_fields = ('date', 'user')
+        fields = ['id', 'restaurant_id', 'username', 'rating', 'text', 'date']
+        read_only_fields = ('date', 'username')
 
 class UserSerializer(serializers.ModelSerializer):
     reviews = ReviewSerializer(many=True, read_only=True)

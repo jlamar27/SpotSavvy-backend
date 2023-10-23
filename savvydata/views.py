@@ -80,7 +80,8 @@ def review_list(request, restaurant_id):
     """
     List all reviews for a specific restaurant.
     """
-    reviews = Review.objects.filter(restaurant_id=restaurant_id).order_by('-date')
+    
+    reviews = Review.objects.filter(restaurant_id=restaurant_id).select_related('user').order_by('-date')    
     serializer = ReviewSerializer(reviews, many=True)
     return Response(serializer.data)
 
