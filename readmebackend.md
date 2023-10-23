@@ -6,10 +6,10 @@ Spot Savvy is a web application that aims to provide users with a platform to di
 ## Wire Frames
 
 **Login Page**
-![image]
+![image](./images/log%20in%20page.png)
 
 **Home Page**
-![image]
+![image](./images/home%20page.png)
 
 ## Backend Deployed Link
 
@@ -17,7 +17,7 @@ https://spot-savvy-backend-5923f47503b2.herokuapp.com/api
 
 
 ## How to work on this App
-this app let users create their own account. Once an account is created the user will be able to look for a restaurant that they like and can leave a review on the restraurant. The user will be able to delete , update the review when needed.
+this app let users create their own account. Once an account is created the user will be able to look for a restaurant that they like and can leave a review on the restraurant , bars and shopping locations. The user will be able to delete , update the review when needed.
 
 ## Technologies Used
 
@@ -86,7 +86,7 @@ To get started with YelpClone, follow these steps:
 
 
 #### Front End Developers
-- Gerardo Arriaza Pantaleon , Jasmine Williams & Axel Witt  
+- Josh Morgan , Juan Lamar
 
 #### Backend Developers
-- Guoxing Liu & Felix Carela 
+- Tenzing Lhagyal , Naischa Suriel , Zubin Sood
