@@ -35,8 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
-
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com', 'spot-savvy.netlify.app']
 
 # Application definition
 
@@ -67,6 +66,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "https://spot-savvy.netlify.app",
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
@@ -74,7 +74,8 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000"
+    "http://localhost:3000",
+    "https://spot-savvy.netlify.app",
 ]
 
 ROOT_URLCONF = 'spotsavvy.urls'
