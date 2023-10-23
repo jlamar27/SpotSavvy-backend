@@ -66,7 +66,7 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "https://spot-savvy.netlify.app",
+    "http://spot-savvy.netlify.app",
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
@@ -75,7 +75,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
-    "https://spot-savvy.netlify.app",
+    "http://spot-savvy.netlify.app",
 ]
 
 ROOT_URLCONF = 'spotsavvy.urls'
