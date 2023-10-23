@@ -94,6 +94,7 @@ def create_review(request):
     serializer = ReviewSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save(user=request.user)
+        print('This is the data', serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
