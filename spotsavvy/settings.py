@@ -35,7 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com', 'spot-savvy.netlify.app']
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 
 # Application definition
 
@@ -177,6 +177,11 @@ CSRF_COOKIE_SECURE = True # To enforce that CSRF cookies are only sent over HTTP
 
 SESSION_COOKIE_SAMESITE = 'None' # None, 'Lax', or 'Strict'
 CSRF_COOKIE_SAMESITE = 'None' # None, 'Lax', or 'Strict'
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'https://spot-savvy.netlify.app',
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
