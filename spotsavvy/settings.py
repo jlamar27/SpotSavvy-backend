@@ -33,7 +33,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com', 'spot-savvy.netlify.app']
 
@@ -64,9 +64,11 @@ MIDDLEWARE = [
 
 CORS_ALLOW_CREDENTIALS = True
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://spot-savvy.netlify.app",
+    "https://spot-savvy.netlify.app",
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
@@ -75,7 +77,7 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
-    "http://spot-savvy.netlify.app",
+    "https://spot-savvy.netlify.app",
 ]
 
 ROOT_URLCONF = 'spotsavvy.urls'
