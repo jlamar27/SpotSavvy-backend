@@ -1,7 +1,5 @@
-
 # Spot Savvy
 Spot Savvy is a web application that aims to provide users with a platform to discover and review businesses and restaurants in their area. This README will provide an overview of our goals and stretch goals, helping you understand the key features and functionalities of the application.
-
 
 ## Wire Frames
 
@@ -26,8 +24,48 @@ this app let users create their own account. Once an account is created the user
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
 ![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
 ![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)
-
 ![PostgreSQL](https://img.shields.io/badge/postgresql-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+
+## API Endpoints
+
+### Authentication and CSRF
+- **GET** `/get-csrf-token/`: Retrieve a CSRF token.
+- **POST** `/signup/`: Register a new user.
+- **POST** `/login/`: Authenticate a user.
+- **POST** `/logout/`: Log out the user.
+
+### Reviews
+- **GET** `/reviews/<str:restaurant_id>/`: Get reviews for a restaurant.
+- **POST** `/review/create/`: Create a new review.
+- **PUT** `/review/edit/<uuid:pk>/`: Edit a review.
+- **DELETE** `/review/delete/<uuid:pk>/`: Delete a review.
+
+### User Schema
+- **ID**: Integer (Auto-generated primary key)
+- **Username**: String (Inherited from `AbstractUser`)
+- **Password**: String (Inherited from `AbstractUser`, encrypted representation of the user password)
+- **Location**: String (User's location)
+
+```python
+class User(AbstractUser):
+    location = models.CharField(max_length=100)
+
+### Review Schema
+- **ID**: UUID (Unique identifier for the review)
+- **Restaurant_ID**: String (Identifier for the restaurant being reviewed)
+- **User**: ForeignKey (Reference to the user who wrote the review)
+- **Rating**: Integer (Rating given to the restaurant)
+- **Text**: String (Review text/content)
+- **Date**: DateTime (Date when the review was created)
+
+```python
+class Review(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    restaurant_id = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
+    rating = models.IntegerField()
+    text = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
 
 ## MVP Goals
 ### 1. User Registration
@@ -73,20 +111,24 @@ To get started with YelpClone, follow these steps:
 2. Install the necessary dependencies by running `pip install -r requirements.txt`.
 3. Set up your database and apply migrations using `python manage.py migrate`.
 4. Create a superuser account for admin access with `python manage.py createsuperuser`.
-5. Start the development server with `python manage.py runserver`
+5. Start the development server with `python manage.py runserver`.
+## Usage
+1. Visit the application in your web browser.
+2. Register or log in to your account.
+3. Search for businesses or restaurants based on your preferences.
+4. Explore detailed listings and read reviews.
+5. Write and submit your own reviews and ratings.
+6. Manage your reviews through the user-friendly interface.
 
-#### Stretch Goals
+## Contributors
+- [Zubin Sood](https://www.linkedin.com/in/zubinsood/)
+- [Tenzing Lhagyal](https://www.linkedin.com/in/tenzing-lhagyal/)
+- [Josh Morgan](https://www.linkedin.com/in/joshmorgan1992/)
+- [Juan Lamar](https://www.linkedin.com/in/juanlamar/)
+- [Naischa Suriel](https://www.linkedin.com/in/naischa-suriel/)
+- [Emre Surmeli](https://www.linkedin.com/in/emresurmeli/)
+- [Gregorio Moreta](https://www.linkedin.com/in/gregorio-moreta/)
+- [Santiago Dimaren](https://www.linkedin.com/in/santiago-dimaren/)
+## Acknowledgments
+- This project is inspired by Yelp, a popular platform for discovering and reviewing local businesses.
 
-1. As a user, I want to be able to save my favorite businesses or restaurants to a "Favorites" list for easy access.
-2. As a user, I want to be able to get directions to a business or restaurant using a map and GPS navigation.
-3. As a user, I want to receive recommendations for businesses or restaurants based on my previous reviews and ratings.
-4. As a user, I would like for the search bar to auto complete/suggestions for when I’m searching businesses.
-
-
-
-
-#### Front End Developers
-- Josh Morgan , Juan Lamar
-
-#### Backend Developers
-- Tenzing Lhagyal , Naischa Suriel , Zubin Sood
